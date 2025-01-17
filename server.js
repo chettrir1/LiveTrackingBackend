@@ -36,7 +36,7 @@ app.use('/api', locationRoutes);
 wss.on('connection', (ws) => {
   console.log('User connected');
 
-  // Emit location update every 5 seconds
+    // Listen for messages from the client
     ws.on('message', async (msg) => {
         console.log('Received Location update: ', msg);
 
@@ -60,7 +60,7 @@ wss.on('connection', (ws) => {
 
         wss.clients.forEach(client => {
             if (client != ws && client.readyState === WebSocket.OPEN) {
-                client.send(msg);
+                 client.send(msg);
            } 
         });
     });
@@ -70,7 +70,7 @@ wss.on('connection', (ws) => {
     console.log('User disconnected');
   });
     
- ws.on('error', () => {
+ ws.on('error', (err) => {
     console.log('WebSocket error:', err);
   });
 });
